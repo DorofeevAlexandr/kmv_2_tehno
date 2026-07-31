@@ -24,8 +24,8 @@
     $ docker-compose exec web python manage.py createsuperuser 
 ---
     sudo docker compose down
-    sudo docker-compose -f docker-compose.prod.yml down
-    sudo docker-compose -f docker-compose.prod.yml up -d --build
+    sudo docker compose -f docker-compose.prod.yml down
+    sudo docker compose -f docker-compose.prod.yml up -d --build
 ---
     docker-compose -f docker-compose.prod.yml up -d --build
     docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
