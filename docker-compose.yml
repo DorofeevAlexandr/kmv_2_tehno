@@ -1,0 +1,74 @@
+
+services:
+  db:
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 5432:5432
+    networks:
+      - bridge_network  
+    build: ./database/
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  web:
+    build: ./backend
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 80:8000
+    env_file:
+      - ./.env
+    networks:
+      - bridge_network
+    depends_on:
+          - db
+    restart: always
+
+  app :
+    networks:
+      - bridge_network
+    build: ./app/
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - data_base_csv:/var/data_base_csv
+
+  ftp:
+    image: fauria/vsftpd:latest
+    container_name: Ftp
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - FTP_USER=${FTP_USER_NAME}
+      - FTP_PASS=${FTP_USER_PASS}
+      - PASV_ADDRESS=127.0.0.1
+      - PASV_MIN_PORT=21100
+      - PASV_MAX_PORT=21110
+    volumes:
+      - data_base_csv:/sdo/
+      - ftp-data:/home/vsftpd
+      - ftp-log-data:/var/log/vsftpd
+    ports:
+      - 0.0.0.0:20:20
+      - 0.0.0.0:21:21
+
+networks:
+  bridge_network:
+    driver: bridge
+
+volumes:
+    ftp-data:
+    ftp-log-data:
+    static_volume: {}
+    postgres_data: {}
+    data_base_csv:
+      driver: local
+      driver_opts:
+        o: bind
+        type: none
+        device: ./data_base_csv

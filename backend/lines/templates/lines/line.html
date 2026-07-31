@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul class="list-articles">
+
+<div class="tabs">
+
+    <table width="100%" border="1">
+        <tr>
+            <th width="5%">№ линии</th>
+            <th width="5%">Modbus адрес</th>
+            <th>Название</th>
+            <th width="15%">Значение индикатора</th>
+            <th width="20%">Коэффициент</th>
+            <th width="15%">Метраж</th>
+            <th width="15%">Скорость</th>
+        </tr>
+        <tr>
+            <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                <th>{{ line.line_number }}</th>
+                <td>{{ line.modbus_adr }}</td>
+                <td>{{ line.pseudonym }}</td>
+                {% if not line_current_params.connection_counter %}
+                    <td BGCOLOR="red">
+                {% else %}
+                    <td>
+                {%endif%}
+                    {{line_current_params.indicator_value}}</td>
+                <td>{{ form.k }} | <button type="submit">Обновить</button>  </td>
+                <td>{{ line_current_params.length|floatformat:2 }}</td>
+                <td>{{ line_current_params.speed_line|floatformat:2 }}</td>
+            </form>
+        </tr>
+    </table>
+</div>
+
+</ul>
+
+{% endblock %}

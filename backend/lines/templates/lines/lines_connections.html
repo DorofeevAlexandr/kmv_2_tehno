@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul class="list-articles">
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><button type="submit">Обновить</button></p>
+    </form>
+
+<div class="tabs">
+
+
+    <table width="100%" border="1">
+        {% for l in lines %}
+        <tr>
+            <th width="15%" >
+                {{l.line_number}}-{{l.pseudonym}}
+            </th>
+            <td width="80%" >
+                        <!-- bar chart canvas element -->
+            <canvas id="myChart{{l.line_number}}" height="40%"></canvas>
+            <script>
+            var ctx = document.getElementById('myChart{{l.line_number}}');
+
+            var myChart{{l.line_number}} = new Chart(ctx, {
+            type: 'line',
+            data: {
+labels : [{% for item in times %} "{{item}}", {% endfor %}],
+              datasets: [{
+                label: '{{l.pseudonym}}',
+data : [{% for item in l.lines_connections %} {{item}}, {% endfor %}],
+                borderColor: "rgba(0,160,0,1)",
+                pointRadius: 1,
+                pointHitRadius: 10,
+<!--                stepped: 'middle',-->
+              }],
+            },
+
+            options: {
+                    plugins: {
+                        legend: { display: false,}
+                    },
+                    animation : false,
+                    animation: { duration: 0, },
+                    hover: { animationDuration: 0, },
+                    responsiveAnimationDuration: 0,
+                    elements: { line: {tension: 0.1, }},
+                    scales: {
+<!--                            xAxes: [{-->
+<!--                                type: "time",-->
+<!--                                time: {-->
+<!--                                    unit: 'hour',-->
+<!--                                    unitStepSize: 1,-->
+<!--                                    round: 'hour',-->
+<!--                                    tooltipFormat: "h:m",-->
+<!--                                    displayFormats: { hour: 'h:m' }-->
+<!--                                }-->
+<!--                            }],-->
+                            x: {
+                                ticks: {
+                                    font: {size: 10},
+                                    maxRotation: 0,
+                                    minRotation: 0,
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    font: {size: 10},
+                                },
+                            },
+                        },
+            }
+
+            });
+
+            </script>
+            </td>
+
+        </tr> <!--ряд с ячейками тела таблицы-->
+        {% endfor %}
+    </table>
+    </div>
+
+
+</ul>
+
+{% endblock %}

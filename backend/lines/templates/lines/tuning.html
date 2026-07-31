@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul class="list-articles">
+
+<div class="tabs">
+
+    <table width="100%" border="1">
+        <tr>
+            <th width="5%">№ линии</th>
+            <th width="5%">Modbus адрес</th>
+            <th>Название</th>
+            <th width="15%">Значение индикатора</th>
+            <th width="15%">Метраж</th>
+            <th width="15%">Коэффициент</th>
+            <th width="15%">Скорость</th>
+        </tr>
+        {% for l in lines %}
+            <tr>
+                <th>{{l.line_number}}</th>
+                <td>{{l.modbus_adr}}</td>
+                <td> <a href="{{ l.line_url }}"> {{l.pseudonym}} </a> </td>
+                {% if not l.connection_counter %}
+                    <td BGCOLOR="red">
+                {% else %}
+                    <td>
+                {%endif%}
+                    {{l.indicator_value}}</td>
+                <td>{{l.length|floatformat:2}}</td>
+                <td>{{l.k}}</td>
+                <td>{{l.speed_line|floatformat:2}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+</ul>
+
+{% endblock %}
