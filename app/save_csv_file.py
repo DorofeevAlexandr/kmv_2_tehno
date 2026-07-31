@@ -9,7 +9,7 @@ def append_in_csv(lines_name: list, current_lengths: list):
     write_header = not os.path.exists(file_name)
     with open(file_name, mode="a", encoding='utf-8') as w_file:
         file_writer = csv.writer(w_file, delimiter = ";", lineterminator="\r")
-        st_time = str((datetime.now() - timedelta(hours=shift_hours)).hour) + ':' + str(datetime.now().minute)
+        st_time = str((datetime.now() - timedelta(hours=shift_hours)).hour) + ':' + str(datetime.now().minute) + ':' + str(datetime.now().second)
         if write_header:
             file_writer.writerow(['Time - 7h'] + [line[0] for line in lines_name])
         file_writer.writerow([st_time] + [str(int(c_length[0] * 1000)) for c_length in current_lengths])
