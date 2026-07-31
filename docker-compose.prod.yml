@@ -85,10 +85,10 @@ networks:
     driver: bridge
 
 volumes:
-    ftp-data:
-    ftp-log-data:
-    static_volume:
-    media_volume:
+    ftp-data: {}
+    ftp-log-data: {}
+    static_volume: {}
+    media_volume: {}
     postgres_data: {}
     data_base_csv:
       driver: local
