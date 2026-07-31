@@ -22,7 +22,8 @@ def create_dir(shift_hours=0):
     file_name = 'Lines_data_' + year + '_' + month + '_' + day + '.csv'
     # basedir = os.path.abspath(os.path.dirname(__file__))
     basedir = '/var/data_base_csv'
-    path = os.path.join(basedir,'USER1','sd0' , year, month)
+
+    path = os.path.join(basedir,'kmv', 'Data', year, month)
     file_name = os.path.join(path, file_name)
     if not os.path.isdir(path):
         os.makedirs(path)   
