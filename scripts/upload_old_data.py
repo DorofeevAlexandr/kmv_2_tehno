@@ -40,17 +40,17 @@ class PostgresDataLoader:
         try:
             with open(file_name, newline='',  errors="replace") as f:
                 for row in csv.reader(f, delimiter=';', quotechar='"'):
-                    if row[0] != 'Time - 7h' and len(row) < 70:
-                        # print(row)
-                        time = dt.datetime.strptime(row[0], '%H:%M')
+                    if row[0] != 'time' and len(row) < 70:
+                        print(row)
+                        time = dt.datetime.strptime(row[0], '%H:%M:%S')
                         dtime = dt.timedelta(hours=time.hour,
                                              minutes=time.minute)
                         dtime_8_hours = dt.timedelta(hours=8)
                         date_time = date + dtime + dtime_8_hours
-                        # print(date_time)
+                        print(date_time)
                         row = [x if x != '' else '0' for x in row]
                         lengths = '{' + ','.join(row[1:]) + '}'
-                        # print(lengths)
+                        print(lengths)
                         self.add_counters_record(date_time, lengths)
                     else:
                         # print(row)
@@ -75,7 +75,7 @@ class PostgresDataLoader:
         return complete_files
 
     def load_old_data(self):
-        csv_files = self.get_csv_filenames('/home/amd/projects/kmv_2/data_base_csv')
+        csv_files = self.get_csv_filenames('/home/amd/projects/kmv_2_tehno/scripts/Data')
         files = sorted(csv_files)
         for n, file in enumerate(files):
             self.read_old_data_csv_file(file_name=file)
@@ -88,8 +88,8 @@ if __name__ == '__main__':
            'user':  os.environ.get('DB_USER'),
            'password': os.environ.get('DB_PASSWORD'),
            #'host': os.environ.get('DB_HOST', 'db'),
-           # 'host': '192.168.211.247',
-           'host': 'localhost',
+           'host': '192.168.211.247',
+           # 'host': 'localhost',
            'port': 5432,
            }
     with psycopg2.connect(**dsl, cursor_factory=DictCursor) as connection:
