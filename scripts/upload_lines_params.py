@@ -53,7 +53,7 @@ class PostgresDataLoader:
                 params['line_number'] = row[1]
                 params['name'] = row[2]
                 params['pseudonym'] = row[10]
-                params['port'] = row[3]
+                params['port'] = 'ttyS0' if row[3] == '0' else 'ttyS1'
                 params['modbus_adr'] = row[4]
                 params['department'] = '1'
                 params['number_of_display'] = 10
