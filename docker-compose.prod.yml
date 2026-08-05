@@ -36,6 +36,8 @@ services:
     restart: always
 
   nginx:
+    env_file:
+      - ./.env.prod
     build: ./nginx
     ports:
       - 80:80
