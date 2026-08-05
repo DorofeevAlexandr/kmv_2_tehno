@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
 import os
 
 
@@ -22,8 +23,10 @@ def create_dir(shift_hours=0):
     file_name = 'Lines_data_' + year + '_' + month + '_' + day + '.csv'
     # basedir = os.path.abspath(os.path.dirname(__file__))
     basedir = '/var/data_base_csv'
+    load_dotenv()
+    ftp_user_name = os.environ.get('FTP_USER_NAME')
 
-    path = os.path.join(basedir,'kmv', 'Data', year, month)
+    path = os.path.join(basedir, ftp_user_name, 'kmv', 'Data', year, month)
     file_name = os.path.join(path, file_name)
     if not os.path.isdir(path):
         os.makedirs(path)   
