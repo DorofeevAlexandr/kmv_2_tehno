@@ -37,27 +37,33 @@ class PostgresDataLoader:
     def read_old_data_csv_file(self, file_name):
         date = dt.datetime.strptime(os.path.split(file_name)[1], "Lines_data_%Y_%m_%d.csv")
         # print(date)
-        try:
-            with open(file_name, newline='',  errors="replace") as f:
-                for row in csv.reader(f, delimiter=';', quotechar='"'):
+
+        with open(file_name, newline='',  errors="replace") as f:
+            for row in csv.reader(f, delimiter=';', quotechar='"'):
+                try:
                     if row[0] != 'time' and len(row) < 70:
-                        print(row)
+
                         time = dt.datetime.strptime(row[0], '%H:%M:%S')
                         dtime = dt.timedelta(hours=time.hour,
                                              minutes=time.minute)
                         dtime_8_hours = dt.timedelta(hours=8)
                         date_time = date + dtime + dtime_8_hours
-                        print(date_time)
+
                         row = [x if x != '' else '0' for x in row]
-                        lengths = '{' + ','.join(row[1:]) + '}'
-                        print(lengths)
+                        # lengths = '{' + ','.join(row[1:]) + '}'
+                        row_int = list(map(int, row[1:]))
+                        row_str = list(map(str, row_int))
+                        lengths = '{' + ','.join(row_str) + '}'
+                        # print(lengths)
                         self.add_counters_record(date_time, lengths)
                     else:
                         # print(row)
                         pass
-        except Exception as e:
-            print('Ошибка', file_name)
-            print(e)
+                except Exception as e:
+                    print('Ошибка', file_name)
+                    print(row)
+                    print(lengths)
+                    print(e)
 
     def get_csv_filenames(self, dir_name):
         files = os.listdir(dir_name)
