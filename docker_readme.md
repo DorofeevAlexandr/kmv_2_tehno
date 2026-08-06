@@ -31,7 +31,13 @@
     sudo docker compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
     sudo docker compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear
 ---
+Запуск psql
 
-docker exec -it kmv_2-db-1 psql -U username lines_database 
+    docker exec -it kmv_2-db-1 psql -U username lines_database 
+---
+Вход в терминал контейнера
+
+    sudo docker compose -f docker-compose.prod.yml exec -it ftp sh
+---
 
 
