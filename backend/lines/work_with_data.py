@@ -10,7 +10,7 @@ import operator
 from .models import Counters, Lines, LinesStatistics
 
 
-COUNT_LINES = 80
+COUNT_LINES = 40
 
 
 load_dotenv()
