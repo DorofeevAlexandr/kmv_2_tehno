@@ -421,22 +421,23 @@ def change_line_stat_clear_data(lines_statistic: list, n: int):
 
 
 def change_title_lines_statistic(lines_statistic:list):
-    change_line_stat_twists_in_minute(lines_statistic, 6)
-    change_line_stat_twists_in_minute(lines_statistic, 7)
+    if os.environ.get('PLACE', 'CVT') == 'CVT':
+        change_line_stat_twists_in_minute(lines_statistic, 6)
+        change_line_stat_twists_in_minute(lines_statistic, 7)
 
-    change_line_stat_metr_in_second(lines_statistic, 9)
-    change_line_stat_metr_in_second(lines_statistic, 23)
+        change_line_stat_metr_in_second(lines_statistic, 9)
+        change_line_stat_metr_in_second(lines_statistic, 23)
 
-    change_line_stat_kg_in_minute(lines_statistic, 46)
-    change_line_stat_kg_in_minute(lines_statistic, 47)
-    change_line_stat_kg_in_minute(lines_statistic, 48)
-    change_line_stat_kg_in_minute(lines_statistic, 49)
+        change_line_stat_kg_in_minute(lines_statistic, 46)
+        change_line_stat_kg_in_minute(lines_statistic, 47)
+        change_line_stat_kg_in_minute(lines_statistic, 48)
+        change_line_stat_kg_in_minute(lines_statistic, 49)
 
-    change_line_stat_twists_in_minute(lines_statistic, 50)
+        change_line_stat_twists_in_minute(lines_statistic, 50)
 
-    change_line_stat_clear_data(lines_statistic, 57)
-    change_line_stat_clear_data(lines_statistic, 75)
-    change_line_stat_clear_data(lines_statistic, 76)
+        change_line_stat_clear_data(lines_statistic, 57)
+        change_line_stat_clear_data(lines_statistic, 75)
+        change_line_stat_clear_data(lines_statistic, 76)
 
 
 def change_speed_lines_metr_in_second(speed_lines:list, num_lines: int):
@@ -444,8 +445,9 @@ def change_speed_lines_metr_in_second(speed_lines:list, num_lines: int):
         speed_lines[num_lines -1][minute] = speed_lines[num_lines -1][minute] / 60.0
 
 def change_speed_lines(speed_lines:list):
-    change_speed_lines_metr_in_second(speed_lines, 9)
-    change_speed_lines_metr_in_second(speed_lines, 23)
+    if os.environ.get('PLACE', 'CVT') == 'CVT':
+        change_speed_lines_metr_in_second(speed_lines, 9)
+        change_speed_lines_metr_in_second(speed_lines, 23)
 
 
 def get_smale_speed_lines(speed_lines: list, step=5):
@@ -486,8 +488,7 @@ def get_data_in_select_date(select_date: dt.datetime):
 
     lines_statistic = get_lines_statistic(speed_lines)
 
-    if os.environ.get('PLACE', 'CVT') == 'CVT':
-        change_title_lines_statistic(lines_statistic)
+    change_title_lines_statistic(lines_statistic)
     step = 3
     smale_speed_lines = get_smale_speed_lines(speed_lines, step)
     change_speed_lines(smale_speed_lines)
